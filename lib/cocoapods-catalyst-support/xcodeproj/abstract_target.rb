@@ -43,7 +43,7 @@ module Xcodeproj::Project::Object
             new_other_ldflags += " #{dependency.link}"
           end
           
-          regex = /(?<=[\s])([\"]*[\S]*#{Regexp.escape(dependency.name)}[\S]*[\"]*)(?=[\s]?)/
+          regex = /(?<=[\s])([\"]*[\S]*\/#{Regexp.escape(dependency.name)}[\S]*[\"]*)(?=[\s]?)/
           if header_search_paths.match? regex
             to_replace = header_search_paths.scan(regex).flat_map do |m| m end.filter do |m| !m.nil? && !m.empty? end.each do |to_replace|
               header_search_paths.gsub! to_replace, ''
@@ -52,7 +52,7 @@ module Xcodeproj::Project::Object
             changed = true
           end
 
-          regex = /(?<=[\s])([\"][\S]*#{Regexp.escape(dependency.name)}[\S]*\")(?=[\s]?)/
+          regex = /(?<=[\s])([\"][\S]*\/#{Regexp.escape(dependency.name)}[\S]*\")(?=[\s]?)/
           if framework_search_paths.match? regex
             to_replace = framework_search_paths.scan(regex).flat_map do |m| m end.filter do |m| !m.nil? && !m.empty? end.each do |to_replace|
               framework_search_paths.gsub! to_replace, ''
@@ -61,7 +61,7 @@ module Xcodeproj::Project::Object
             changed = true
           end
 
-          regex = /(?<=[\s])(-Xcc -[\S]*#{Regexp.escape(dependency.name)}[\S]*\")(?=[\s]?)/
+          regex = /(?<=[\s])(-Xcc -[\S]*\/#{Regexp.escape(dependency.name)}[\S]*\")(?=[\s]?)/
           if other_swift_flags.match? regex
             to_replace = other_swift_flags.scan(regex).flat_map do |m| m end.filter do |m| !m.nil? && !m.empty? end.each do |to_replace|
               other_swift_flags.gsub! to_replace, ''
